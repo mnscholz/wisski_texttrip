@@ -1,0 +1,8 @@
+; $Id$
+name = Text Triplification 
+description = Extract triples from free text.
+core = 6.x
+version = "0.1-dev"
+package = "WissKI Text"
+dependencies[] = wisski_textmod
+

@@ -1,0 +1,100 @@
+<?php
+
+
+/**
+* @author Martin Scholz
+*/
+function wisski_texttrip_install() {
+  drupal_install_schema('wisski_texttrip');
+}
+
+
+/**
+* @author Martin Scholz
+*/
+function wisski_texttrip_uninstall() {
+  drupal_uninstall_schema('wisski_texttrip');
+}
+
+
+/**
+* @author Martin Scholz
+*/
+function wisski_texttrip_schema() {
+  $schema['wisski_texttrip_formats'] = array(
+    'fields' => array(
+      'format' => array(
+        'type' => 'int',
+        'size' => 'normal',
+        'not null' => TRUE,
+      ),
+      'mode' => array(
+        'type' => 'varchar',
+        'length' => 10,
+        'not null' => TRUE,
+      ),
+      'weight' => array(
+        'type' => 'int',
+        'size' => 'normal',
+        'not null' => TRUE,
+      ),
+      'extractor' => array(
+        'type' => 'int',
+        'size' => 'normal',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('format', 'mode', 'weight', 'extractor'),
+    'indexes' => array(
+      'format' => array('format'),
+      'mode' => array('mode'),
+      'weight' => array('weight'),
+      'extractor' => array('extractor'),
+    ),
+  );
+
+  $schema['wisski_texttrip_extractors'] = array(
+    'fields' => array(
+      'eid' => array(
+        'type' => 'serial',
+        'size' => 'normal',
+      ),
+      'module' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'delta' => array(
+        'type' => 'int',
+        'size' => 'normal',
+        'not null' => TRUE,
+      ),
+      'name' => array(
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'context' => array(
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'settings' => array(
+        'type' => 'text',
+        'size' => 'normal',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('eid'),
+    'indexes' => array(
+      'module' => array(array('module', 100)),
+      'delta' => array('delta'),
+      'name' => array('name'),
+      'context' => array('context'),
+    ),
+  );
+
+
+  return $schema;
+
+}
