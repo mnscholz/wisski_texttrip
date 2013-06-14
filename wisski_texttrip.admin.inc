@@ -175,7 +175,6 @@ function wisski_texttrip_admin_main_submit($form, $form_state) {
   if (isset($v['formats'])) {
     foreach ($v['formats'] as $ftmp => $f_s) {
       list(,$format) = explode('_', $ftmp, 2);
-      dpm($format);
       foreach($f_s['table'] as $etmp => $e_s) {
         list(,$eid) = explode('_', $etmp, 2);
         
