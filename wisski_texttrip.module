@@ -221,11 +221,12 @@ function wisski_texttrip_triplify($node) {
   foreach ($format as $format_step) {
     $eid = $format_step['extractor'];
     $extr = wisski_texttrip_extractor_get($eid);
-
-    $graph = $extr['context'] == 'node' ? $inst : wisski_store_getObj()->wisski_ARCAdapter_graphName();
+    
+    $graph_type = $extr['context'];
+    $graph = $graph_type == 'node' ? $inst : wisski_store_getObj()->wisski_ARCAdapter_graphName();
     $return = module_invoke($extr['module'], 'wisski_texttrip_extractor', 'triplify', $extr['delta'], $extr['settings'], $tid, $node->body, $inst);
     
-    if (user_access("wisski write to all contexts") === TRUE || user_access("wisski write to $graph context") === TRUE) {
+    if (user_access("wisski write to all contexts") === TRUE || user_access("wisski write to $graph_type context") === TRUE) {
       $triples = $return['triples'];
      
       $store->insert($triples, $graph);
