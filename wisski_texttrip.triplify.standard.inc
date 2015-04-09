@@ -355,7 +355,7 @@ function _wisski_texttrip_triplify_standard_get_content($e) {
         break;
       case XML_ELEMENT_NODE:
         $children_text = _wisski_texttrip_triplify_standard_get_content($c);
-        if (in_array(strtolower($element->tagName), $replacements)) $text .= " $children_text ";
+        if (in_array(strtolower($element->tagName), $ws_replacements)) $text .= " $children_text ";
         else $text .= $children_text;
         break;
     }
