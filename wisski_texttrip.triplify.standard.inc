@@ -227,11 +227,11 @@ function _wisski_texttrip_triplify_standard_walk($settings, $element, $text_inst
           $triples = array_merge($triples, $tr);
         }
       } else {
-        $q = "ASK { <$uri> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <" . $group_path_array['x0'] . '> . }';
+        $q = "ASK { <$uri> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?c . }";
         $store = wisski_store_getObj()->wisski_ARCAdapter_getStore();
         $is_imported = $store->query($q, 'raw');
         if ($store->getErrors()) {
-          foreach ($store->getErrors() as $e) drupal_set_message("error asking TS: $e");
+          foreach ($store->getErrors() as $e) drupal_set_message("extracting triples: error asking TS: $e");
         }
         
         if (!$is_imported) {
