@@ -184,6 +184,7 @@ function _wisski_texttrip_triplify_standard_walk($settings, $element, $text_inst
       $rels = array();
       $revs = array();
       $subject = FALSE;
+      $new = FALSE;
 
       foreach(explode(' ', $e->getAttribute('class')) as $cl) {
         if (substr($cl, 0, 18) == 'wisski_anno_class_') $gid = urldecode(substr($cl, 18));
@@ -209,15 +210,30 @@ function _wisski_texttrip_triplify_standard_walk($settings, $element, $text_inst
 
       if (!$uri && $gid == -1) continue; // we can't make anything useful with that
 
-      if (!$uri) $uri = wisski_texttrip_create_instance_uri($gid);
-      
       if ($voc) { // can only be nonnull if vocab_ctrl module is enabled
         $voc = wisski_vocab_ctrl_get($voc);
       }
-      if ($voc && $voc->group_id != !$gid) {
+      if ($voc && $voc->group_id != $gid) {
         $gid = $voc->group_id;
       }
       
+      if (!$uri) { 
+        $uri = wisski_texttrip_create_instance_uri($gid);
+      } else {
+        $local_uri = wisski_vocab_ctrl_get_local_uri($uri);
+        if ($local_uri === NULL) {
+          if (!$voc) {
+            // we don't know how to import it
+            continue;
+          }
+          // the referred URI is a foreign uri and is not imported
+          $graph = wisski_store_getObj()->wisski_ARCAdapter_graphName();
+          list($ok, $local_uri) = wisski_vocab_ctrl_import($voc, $uri, $graph);
+          if (!$ok) continue;
+        }
+        $uri = $local_uri;
+      }
+
       // check whether instance needs to be imported from voc
       // whether it needs to be created
       if ($voc) {

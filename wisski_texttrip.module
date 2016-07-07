@@ -203,7 +203,7 @@ function wisski_texttrip_extractor_types() {
 
 function wisski_texttrip_create_instance_uri($class) {
   global $base_root, $base_path;
-  return $base_root . $base_path . wisski_get_uuid(4);
+  return $base_root . $base_path . 'content/' . wisski_get_uuid(4);
 }
 
 
@@ -360,7 +360,8 @@ function wisski_texttrip_node_triples($form, $node) {
 
 function wisski_texttrip_access_view_triples($node) {
   if (user_access('wisski view extractable triples') !== TRUE) return FAlSE;
-
+  
+  module_load_include("inc", "wisski_pathbuilder");
   $gid = wisski_pathbuilder_getGroupIDForIndividual(wisski_store_getObj()->wisski_ARCAdapter_delNamespace($node->title));
   if ($gid == -1) return FALSE;
 
